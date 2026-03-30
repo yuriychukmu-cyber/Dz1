@@ -15,6 +15,7 @@ class CanvasWidget : public QWidget
 
 public:
     explicit CanvasWidget(QWidget *parent = nullptr);
+    ~CanvasWidget() override;
 
     void startAnimation();
     void stopAnimation();

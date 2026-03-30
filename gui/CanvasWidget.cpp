@@ -23,6 +23,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     emit animationStateChanged(QStringLiteral("Анимация остановлена"));
 }
 
+CanvasWidget::~CanvasWidget() = default;
+
 void CanvasWidget::startAnimation()
 {
     if (m_timer->isActive()) {
@@ -42,6 +44,7 @@ void CanvasWidget::stopAnimation()
     m_timer->stop();
     emit animationStateChanged(QStringLiteral("Анимация остановлена"));
 }
+
 
 void CanvasWidget::resetAnimation()
 {
