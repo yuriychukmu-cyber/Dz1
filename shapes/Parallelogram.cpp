@@ -1,6 +1,5 @@
 #include "Parallelogram.h"
 
-#include <QBrush>
 #include <QPen>
 #include <QPolygonF>
 
@@ -19,8 +18,8 @@ void Parallelogram::draw(QPainter &painter) const
             << QPointF(m_position.x() + m_size.width(), m_position.y() + m_size.height())
             << QPointF(m_position.x(), m_position.y() + m_size.height());
 
-    painter.setPen(QPen(Qt::black, 2));
-    painter.setBrush(QBrush(m_color));
+    painter.setPen(QPen(m_color, 3));
+    painter.setBrush(Qt::NoBrush);
     painter.drawPolygon(polygon);
 }
 

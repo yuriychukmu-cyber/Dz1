@@ -67,7 +67,7 @@ void CanvasWidget::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.fillRect(rect(), QColor(245, 248, 255));
+    painter.fillRect(rect(), QColor(255, 255, 255));
 
     for (const auto &object : m_objects) {
         object->draw(painter);
@@ -89,7 +89,7 @@ void CanvasWidget::advanceFrame()
 void CanvasWidget::createObjects()
 {
     m_objects.clear();
-    m_objects.emplace_back(std::make_unique<IsoscelesTriangle>(QPointF(70, 40), QSizeF(130, 100), 2.2, QColor(231, 76, 60)));
-    m_objects.emplace_back(std::make_unique<Parallelogram>(QPointF(250, 90), QSizeF(170, 90), 35, 3.0, QColor(46, 204, 113)));
-    m_objects.emplace_back(std::make_unique<BowShape>(QPointF(470, 130), QSizeF(140, 90), 1.6, QColor(52, 152, 219)));
+    m_objects.emplace_back(std::make_unique<IsoscelesTriangle>(QPointF(30, 30), QSizeF(70, 95), 2.0, Qt::black));
+    m_objects.emplace_back(std::make_unique<Parallelogram>(QPointF(220, 40), QSizeF(120, 58), 28, 2.8, Qt::black));
+    m_objects.emplace_back(std::make_unique<BowShape>(QPointF(460, 35), QSizeF(95, 95), 1.6, Qt::black));
 }

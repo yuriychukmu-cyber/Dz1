@@ -19,5 +19,4 @@ private:
     QPushButton *m_startButton;
     QPushButton *m_stopButton;
     QPushButton *m_resetButton;
-    QPushButton *m_exitButton;
 };

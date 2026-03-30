@@ -14,28 +14,20 @@ MainWindow::MainWindow(QWidget *parent)
       m_statusLabel(new QLabel(QStringLiteral("Анимация остановлена"), this)),
       m_startButton(new QPushButton(QStringLiteral("Старт"), this)),
       m_stopButton(new QPushButton(QStringLiteral("Стоп"), this)),
-      m_resetButton(new QPushButton(QStringLiteral("Сброс"), this)),
-      m_exitButton(new QPushButton(QStringLiteral("Выход"), this))
+      m_resetButton(new QPushButton(QStringLiteral("Сброс"), this))
 {
-    setWindowTitle(QStringLiteral("Движение графических объектов — Qt Widgets"));
-    resize(860, 560);
+    setWindowTitle(QStringLiteral("Движение фигур"));
+    resize(780, 420);
 
     auto *central = new QWidget(this);
     auto *mainLayout = new QVBoxLayout(central);
-
-    auto *instruction = new QLabel(QStringLiteral("Нажмите «Старт» для запуска одновременного вертикального движения фигур."), this);
-    instruction->setWordWrap(true);
 
     auto *controlsLayout = new QHBoxLayout();
     controlsLayout->addWidget(m_startButton);
     controlsLayout->addWidget(m_stopButton);
     controlsLayout->addWidget(m_resetButton);
     controlsLayout->addStretch();
-    controlsLayout->addWidget(m_exitButton);
 
-    m_statusLabel->setMinimumWidth(220);
-
-    mainLayout->addWidget(instruction);
     mainLayout->addWidget(m_canvas, 1);
     mainLayout->addLayout(controlsLayout);
     mainLayout->addWidget(m_statusLabel);
@@ -45,6 +37,5 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_startButton, &QPushButton::clicked, m_canvas, &CanvasWidget::startAnimation);
     connect(m_stopButton, &QPushButton::clicked, m_canvas, &CanvasWidget::stopAnimation);
     connect(m_resetButton, &QPushButton::clicked, m_canvas, &CanvasWidget::resetAnimation);
-    connect(m_exitButton, &QPushButton::clicked, this, &MainWindow::close);
     connect(m_canvas, &CanvasWidget::animationStateChanged, m_statusLabel, &QLabel::setText);
 }
