@@ -1,0 +1,127 @@
+@startuml
+' Диаграмма классов учебного проекта QtShapesMotion
+' Стиль приближен к требованиям учебного оформления (ГОСТ):
+' - русские наименования ролей связей
+' - явное указание модификаторов и типов
+' - разделение на подсистемы
+
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor black
+skinparam classArrowColor black
+skinparam shadowing false
+skinparam monochrome true
+skinparam linetype ortho
+skinparam defaultFontName "Times New Roman"
+skinparam defaultFontSize 13
+skinparam classAttributeIconSize 0
+
+package "GUI-подсистема" {
+class MainWindow {
+    - m_canvas : CanvasWidget*
+    - m_statusLabel : QLabel*
+    - m_startButton : QPushButton*
+    - m_stopButton : QPushButton*
+    - m_resetButton : QPushButton*
+    --
+    + MainWindow(parent : QWidget* = nullptr)
+}
+
+class CanvasWidget {
+    - m_objects : std::vector<std::unique_ptr<GraphicObject>>
+    - m_timer : QTimer*
+    --
+    + CanvasWidget(parent : QWidget* = nullptr)
+    + ~CanvasWidget()
+    + startAnimation() : void
+    + stopAnimation() : void
+    + resetAnimation() : void
+    + isRunning() : bool
+    --
+    # paintEvent(event : QPaintEvent*) : void
+    - advanceFrame() : void
+    - createObjects() : void
+    --
+    ..signals..
+    + animationStateChanged(statusText : QString)
+}
+}
+
+package "Подсистема графических объектов" {
+abstract class GraphicObject {
+    # m_position : QPointF
+    # m_initialPosition : QPointF
+    # m_speed : double
+    # m_initialSpeed : double
+    # m_direction : int
+    # m_initialDirection : int
+    # m_color : QColor
+    --
+    + GraphicObject(position : QPointF, speed : double, color : QColor)
+    + ~GraphicObject()
+    + draw(painter : QPainter&) : void {abstract}
+    + boundingRect() : QRectF {abstract}
+    + moveWithin(topBoundary : int, bottomBoundary : int) : void
+    + reset() : void
+}
+
+class IsoscelesTriangle {
+    - m_size : QSizeF
+    --
+    + IsoscelesTriangle(position : QPointF, size : QSizeF, speed : double, color : QColor)
+    + draw(painter : QPainter&) : void
+    + boundingRect() : QRectF
+}
+
+class Parallelogram {
+    - m_size : QSizeF
+    - m_skewShift : double
+    --
+    + Parallelogram(position : QPointF, size : QSizeF, skewShift : double, speed : double, color : QColor)
+    + draw(painter : QPainter&) : void
+    + boundingRect() : QRectF
+}
+
+class BowShape {
+    - m_size : QSizeF
+    --
+    + BowShape(position : QPointF, size : QSizeF, speed : double, color : QColor)
+    + draw(painter : QPainter&) : void
+    + boundingRect() : QRectF
+}
+}
+
+class QApplication
+class QWidget
+class QMainWindow
+class QTimer
+class QPainter
+class QPaintEvent
+class QLabel
+class QPushButton
+class QString
+
+MainWindow --|> QMainWindow
+CanvasWidget --|> QWidget
+
+GraphicObject <|-- IsoscelesTriangle
+GraphicObject <|-- Parallelogram
+GraphicObject <|-- BowShape
+
+MainWindow *-- CanvasWidget : содержит
+MainWindow ..> QLabel : использует
+MainWindow ..> QPushButton : использует
+
+CanvasWidget *-- "0..*" GraphicObject : владеет
+CanvasWidget *-- QTimer : владеет
+CanvasWidget ..> QPainter : рисует через
+CanvasWidget ..> QPaintEvent : обрабатывает
+CanvasWidget ..> QString : сигнал
+
+note right of CanvasWidget
+Анимационный цикл:
+QTimer -> advanceFrame() -> moveWithin()
+-> update() -> paintEvent() -> draw()
+end note
+
+@enduml
