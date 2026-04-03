@@ -3,11 +3,12 @@
 #include <QWidget>
 #include <QString>
 
+#include "../shapes/GraphicObject.h"
+
 #include <memory>
 #include <vector>
 
 class QTimer;
-class GraphicObject;
 
 class CanvasWidget : public QWidget
 {
